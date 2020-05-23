@@ -31,6 +31,8 @@ class ViewController: UIViewController {
 //        UIColor(red: 1.0, green: 0.6, blue: 0.2, alpha: 1.0).cgColorと色指定することもできる
         askQuestion(action: nil)
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showScore))
+        
     }
     
     func askQuestion(action: UIAlertAction!) {
@@ -49,6 +51,13 @@ class ViewController: UIViewController {
         score = 0
         leftquestions = 10
     }
+    
+    @objc func showScore(){
+        let ac = UIAlertController(title: "現在のスコア", message: "\(score)点", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(ac, animated: true)
+    }
+    
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
         leftquestions -= 1
@@ -61,13 +70,13 @@ class ViewController: UIViewController {
             title = "Wrong..."
         }
 //        アラート 不正解, 10問終了, その他
-        if title == "Wrong..."{
+        if title == "Wrong..."{ //不正解
             let ac = UIAlertController(title: title, message: "Wrong! That’s the flag of \(countries[sender.tag].uppercased())", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
             present(ac, animated: true)
-        } else if leftquestions == 0{
+        } else if leftquestions == 0{ //終了
             showResult()
-        } else {
+        } else { //正解
             let ac = UIAlertController(title: title, message: "Your score is \(score).", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
             present(ac, animated: true)
